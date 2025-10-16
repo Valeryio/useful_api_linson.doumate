@@ -54,7 +54,9 @@ class AuthController extends Controller
         $existingUser = User::where("email", $request["email"])->first();
 
         if (!$existingUser || !Hash::check($request->password, $existingUser->password)){
-            return response()->json(null, 401);
+            return response()->json([
+                "message" => "Unauthorized"
+            ], 401);
         }
 
         $token = $existingUser->createToken($existingUser->id);

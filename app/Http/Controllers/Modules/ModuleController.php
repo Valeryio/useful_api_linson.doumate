@@ -37,10 +37,6 @@ class ModuleController extends Controller
             ->where("module_id", $moduleId)
             ->first();
 
-        if (!$existingUserModule) {
-            return response(null, 404);
-        }
-
         if ($existingUserModule["active"] == 0 )
         {
             $existingUserModule->active = true;
@@ -63,10 +59,6 @@ class ModuleController extends Controller
         $existingUserModule = UserModules::where("user_id", $user->id)
             ->where("module_id", $moduleId)
             ->first();
-
-        if (!$existingUserModule) {
-            return response(null, 404);
-        }
 
         if ($existingUserModule["active"] == 1 )
         {

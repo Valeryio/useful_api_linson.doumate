@@ -8,7 +8,7 @@ use App\Models\UserModules;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckModuleActive
+class CheckModuleExist
 {
     /**
      * Handle an incoming request.
@@ -24,13 +24,11 @@ class CheckModuleActive
             ->where("module_id", $moduleId)
             ->first();
 
-        if ($existingUserModule["active"] == 0 )
-        {
+        if (!$existingUserModule) {
             return response([
-                "error" => "Module inactive. Please activate this module to use it."
-            ], 403);
+                "error" => "Not found!"
+            ], 404);
         }
-
         return $next($request);
     }
 }
