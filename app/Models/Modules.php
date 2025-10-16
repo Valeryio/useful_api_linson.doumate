@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Modules extends Model
 {
-    //
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'id',
+        'name',
+        'description',
+    ];
 }

@@ -11,6 +11,7 @@ use Dotenv\Exception\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\Auth\LoginResource;
+use App\Http\Resources\Auth\RegisterResource;
 
 class AuthController extends Controller
 {
@@ -30,9 +31,11 @@ class AuthController extends Controller
             "created_at" => $user->created_at
         ];
 
-        $response = (new LoginResource($data))
+        $response = (new RegisterResource($data))
             ->response()
             ->setStatusCode(201);
+
+        return $response;
     }
 
 
