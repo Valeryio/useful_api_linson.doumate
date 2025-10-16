@@ -5,7 +5,7 @@ namespace App\Http\Resources\Modules;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UrlCreationResource extends JsonResource
+class UrlListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

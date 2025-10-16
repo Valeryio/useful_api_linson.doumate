@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Modules\UrlCreationRequest;
 use App\Http\Resources\Modules\UrlCreationResource;
+use App\Http\Resources\Modules\UrlListResource;
 use App\Models\UrlShortener;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,11 +17,17 @@ class UrlShortenerController extends Controller
      */
     public function index()
     {
-        $allLinksCollection = UrlShortener::all();
+        $user = Auth::user();
+
+        // return $user;
+        $allLinksCollection = UrlShortener::where("user_id", $user->id)
+            ->get();
+
+        // return $allLinksCollection;
         $allLinks = [];
 
         for ($i = 0; $i < count($allLinksCollection); $i++) {
-            $allLinks[$i] = new UrlCreationResource($allLinksCollection[$i]);
+            $allLinks[$i] = new UrlListResource($allLinksCollection[$i]);
         }
 
         return $allLinks;
