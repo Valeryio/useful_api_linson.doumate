@@ -15,6 +15,9 @@ use App\Http\Resources\Auth\LoginResource;
 class AuthController extends Controller
 {
 
+    /**
+     * register a new user into the database
+     */
     public function register(UserRegistrationRequest $request) {
 
         $fields = $request->all();
@@ -37,9 +40,7 @@ class AuthController extends Controller
         $existingUser = User::where("email", $request["email"])->first();
 
         if (!$existingUser || !Hash::check($request->password, $existingUser->password)){
-            return [
-                "message" => "Provided values are incorrect!"
-            ];
+            return response()->json(null, 401);
         }
 
         $token = $existingUser->createToken($existingUser->id);
@@ -47,8 +48,7 @@ class AuthController extends Controller
             "id" => $existingUser->id,
             "email" => $existingUser->email,
             "created_at" => $existingUser->created_at,
-            "token" => $token->plainTextToken,
-            "statusCode" => 201
+            "token" => $token->plainTextToken
         ];
 
         $response = (new LoginResource($data))
