@@ -30,6 +30,8 @@ Route::get('/user', function (Request $request) {
 Route::post("/shorten", [UrlShortenerController::class, "create"])
 ->middleware('auth:sanctum');
 
+Route::get("/links", [UrlShortenerController::class, "index"])
+->middleware('auth:sanctum');
 
 
 // Module routes

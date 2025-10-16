@@ -16,7 +16,14 @@ class UrlShortenerController extends Controller
      */
     public function index()
     {
-        return "hello shortener";
+        $allLinksCollection = UrlShortener::all();
+        $allLinks = [];
+
+        for ($i = 0; $i < count($allLinksCollection); $i++) {
+            $allLinks[$i] = new UrlCreationResource($allLinksCollection[$i]);
+        }
+
+        return $allLinks;
     }
 
     /**
