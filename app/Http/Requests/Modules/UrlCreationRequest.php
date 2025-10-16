@@ -23,7 +23,7 @@ class UrlCreationRequest extends FormRequest
     {
         return [
             "custom_code" => "nullable|max:10",
-            "original_url" => "required|string"
+            "original_url" => "required|string|url"
         ];
     }
 
