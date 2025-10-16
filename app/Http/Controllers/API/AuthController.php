@@ -10,6 +10,7 @@ use App\Models\User;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\Auth\LoginResource;
 
 class AuthController extends Controller
 {
@@ -26,9 +27,9 @@ class AuthController extends Controller
             "created_at" => $user->created_at
         ];
 
-        return [
-            "user" => $data
-        ];
+        $response = (new LoginResource($data))
+            ->response()
+            ->setStatusCode(201);
     }
 
 
@@ -41,16 +42,20 @@ class AuthController extends Controller
             ];
         }
 
+        $token = $existingUser->createToken($existingUser->id);
         $data = [
             "id" => $existingUser->id,
             "email" => $existingUser->email,
-            "created_at" => $existingUser->created_at
+            "created_at" => $existingUser->created_at,
+            "token" => $token->plainTextToken,
+            "statusCode" => 201
         ];
-        $token = $existingUser->createToken($existingUser->id);
-         return [
-            "user" => $data,
-            "token" => $token->plainTextToken
-        ];
+
+        $response = (new LoginResource($data))
+            ->response()
+            ->setStatusCode(200);
+
+        return $response;
     }
 
     public function logout(Request $request) {
