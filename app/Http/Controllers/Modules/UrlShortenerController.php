@@ -50,6 +50,21 @@ class UrlShortenerController extends Controller
         return response()->json($response, 200);
     }
 
+    public function redirectToUrl(string $code) {
+        $existingUrl = UrlShortener::where("code", $code)
+            ->first();
+        
+        if (!$existingUrl) {
+            return response([
+                "error" => "Not found!"
+            ],404);
+        }
+
+        $existingUrl["clicks"] += 1;
+        $existingUrl->save();
+        return redirect()->away($existingUrl["original_url"]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -87,7 +102,7 @@ class UrlShortenerController extends Controller
      */
     public function destroy(string $id)
     {
-        $existingLink = UrlShortener::where("id", $id)
+        UrlShortener::where("id", $id)
             ->delete();
         return response()->json([
             "message" => "Link deleted successfully"
