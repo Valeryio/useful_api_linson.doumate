@@ -21,3 +21,9 @@ Route::post("logout", [AuthController::class, "logout"])
     ->middleware('auth:sanctum');
 
 Route::get("/modules", [ModuleController::class, "index"]);
+
+Route::post("/modules/{id}/activate", [ModuleController::class, "activate"])
+    ->middleware('auth:sanctum');
+
+Route::post("/modules/{id}/desactivate", [ModuleController::class, "desactivate"])
+    ->middleware('auth:sanctum');

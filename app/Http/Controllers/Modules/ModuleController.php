@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Modules\ModulesRessource;
 use App\Models\Modules;
+use App\Models\UserModules;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ModuleController extends Controller
 {
@@ -22,6 +24,61 @@ class ModuleController extends Controller
         }
         return $allModules;
     }
+
+    /**
+     * Activation of a new resource.
+     */
+    public function activate(Request $request)
+    {
+        $moduleId = $request["id"];
+        $user = Auth::user();
+
+        $existingUserModule = UserModules::where("user_id", $user->id)
+            ->where("module_id", $moduleId)
+            ->first();
+
+        if (!$existingUserModule) {
+            return response(null, 404);
+        }
+
+        if ($existingUserModule["active"] == 0 )
+        {
+            $existingUserModule->active = true;
+            $existingUserModule->save();
+        }
+
+        return response()->json([
+            "message"=> "Module activated"
+        ], 200);
+    }
+
+    /**
+     * Desctivation of a new resource.
+     */
+    public function desactivate(Request $request)
+    {
+        $moduleId = $request["id"];
+        $user = Auth::user();
+
+        $existingUserModule = UserModules::where("user_id", $user->id)
+            ->where("module_id", $moduleId)
+            ->first();
+
+        if (!$existingUserModule) {
+            return response(null, 404);
+        }
+
+        if ($existingUserModule["active"] == 1 )
+        {
+            $existingUserModule->active = false;
+            $existingUserModule->save();
+        }
+
+        return response()->json([
+            "message"=> "Module desactivated"
+        ], 200);
+    }
+    
 
     /**
      * Show the form for creating a new resource.
