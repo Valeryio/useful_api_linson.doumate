@@ -4,9 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Modules\ModuleController;
+use App\Http\Controllers\Modules\UrlShortenerController;
 use App\Http\Middleware\CheckModuleActive;
 use App\Http\Middleware\CheckModuleExist;
-
+use App\Models\UrlShortener;
 
 Route::post("/register", [AuthController::class, "register"])
     ->name("register");
@@ -26,7 +27,8 @@ Route::get('/user', function (Request $request) {
 
 // Link shortener routes
 
-Route::post("/shorten", []);
+Route::post("/shorten", [UrlShortenerController::class, "create"])
+->middleware('auth:sanctum');
 
 
 
