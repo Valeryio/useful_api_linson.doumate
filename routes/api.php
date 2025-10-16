@@ -7,6 +7,7 @@ use App\Http\Controllers\Modules\ModuleController;
 use App\Http\Controllers\Modules\UrlShortenerController;
 use App\Http\Middleware\Module\CheckModuleActive;
 use App\Http\Middleware\Module\CheckModuleExist;
+use App\Http\Middleware\Module\CheckUrlExist;
 use App\Models\UrlShortener;
 
 Route::post("/register", [AuthController::class, "register"])
@@ -28,10 +29,15 @@ Route::get('/user', function (Request $request) {
 // Link shortener routes
 
 Route::post("/shorten", [UrlShortenerController::class, "create"])
-->middleware('auth:sanctum');
+    ->middleware('auth:sanctum');
 
 Route::get("/links", [UrlShortenerController::class, "index"])
-->middleware('auth:sanctum');
+    ->middleware('auth:sanctum')
+    ->middleware(CheckModuleExist::class);
+
+Route::delete("/links/{id}", [UrlShortenerController::class, "destroy"])
+    ->middleware('auth:sanctum')
+    ->middleware(CheckUrlExist::class);
 
 
 // Module routes

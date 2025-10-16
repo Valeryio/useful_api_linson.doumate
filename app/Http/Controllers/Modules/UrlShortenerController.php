@@ -18,12 +18,9 @@ class UrlShortenerController extends Controller
     public function index()
     {
         $user = Auth::user();
-
-        // return $user;
         $allLinksCollection = UrlShortener::where("user_id", $user->id)
             ->get();
 
-        // return $allLinksCollection;
         $allLinks = [];
 
         for ($i = 0; $i < count($allLinksCollection); $i++) {
@@ -90,16 +87,20 @@ class UrlShortenerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $existingLink = UrlShortener::where("id", $id)
+            ->delete();
+        return response()->json([
+            "message" => "Link deleted successfully"
+        ], 200);
     }
 
     public static function generateRandomStr($length = 10) {
-    $charSet = '0123456789abcdefghijklmnopqrstuvwxyz/_/-ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($charSet);
-    $customStr = '';
-    for ($i = 0; $i < $length; $i++) {
-        $customStr .= $charSet[rand(0, $charactersLength - 1)];
+        $charSet = '0123456789abcdefghijklmnopqrstuvwxyz/_/-ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($charSet);
+        $customStr = '';
+        for ($i = 0; $i < $length; $i++) {
+            $customStr .= $charSet[rand(0, $charactersLength - 1)];
+        }
+        return $customStr;
     }
-    return $customStr;
-}
 }
