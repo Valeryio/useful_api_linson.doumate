@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Modules extends Model
 {
@@ -16,4 +17,9 @@ class Modules extends Model
         'name',
         'description',
     ];
+
+    public function userModules(): HasMany
+    {
+        return $this->hasMany(UserModules::class);
+    }
 }

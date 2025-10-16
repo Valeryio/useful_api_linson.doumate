@@ -5,26 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class UserModules extends Model
+class UrlShortener extends Model
 {
-    /**
+   /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'user_id',
-        'module_id',
-        'active',
+        'id',
+        'code',
+        'clicks',
+        "original_url",
+        "shortened_url",
+        "user_id"
     ];
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function module(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
+
+
 }

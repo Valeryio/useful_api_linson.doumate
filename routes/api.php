@@ -14,7 +14,7 @@ Route::post("/register", [AuthController::class, "register"])
 Route::post("login", [AuthController::class, "login"])
     ->name("login");
 
-    
+
 Route::post("logout", [AuthController::class, "logout"])
     ->name("logout")
     ->middleware('auth:sanctum');
@@ -24,7 +24,13 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
+// Link shortener routes
 
+Route::post("/shorten", []);
+
+
+
+// Module routes
 Route::get("/modules", [ModuleController::class, "index"]);
 
 Route::post("/modules/{id}/activate", [ModuleController::class, "activate"])
