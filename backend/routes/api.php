@@ -28,7 +28,8 @@ Route::get('/user', function (Request $request) {
 
 // Link shortener routes
 
-Route::get("/s/{code}", [UrlShortenerController::class, "redirectToUrl"]);
+Route::get("/s/{code}", [UrlShortenerController::class, "redirectToUrl"])
+    ->middleware(CheckModuleActive::class);
 
 Route::post("/shorten", [UrlShortenerController::class, "create"])
     ->middleware('auth:sanctum');
