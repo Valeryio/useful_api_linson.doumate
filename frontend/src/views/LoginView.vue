@@ -1,10 +1,11 @@
 <template>
 	
-	<section class="flex " >
+	<section class="h-full border flex items-center" >
 
-		<form action="" method="post" @submit.prevent="login" class="max-w-[18rem] p-[1rem] border" >
+		<form action="" method="post" @submit.prevent="login" 
+		class="max-w-[18rem] flex flex-col gap-[1rem] p-[1rem] border " >
 
-			<p v-if="isInvalidCredentials" >
+			<p v-if="isInvalidCredentials" class="text-red-600" >
 				Credentials are invalid!
 			</p>
 			<div class="flex flex-col" >
@@ -17,7 +18,7 @@
 				<input type="password" name="" id="" v-model="password" class="border">
 			</div>
 
-			<button type="submit" class="cursor-pointer" >Login</button>
+			<button type="submit" class="cursor-pointer py-[.8rem] hover:bg-[#EA454C] hover:text-white w-full border border-gray-200" >Login</button>
 		</form>
 
 		<picture>
